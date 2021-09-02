@@ -23,4 +23,5 @@ dbConnection
 
 app.use("/test", (req, res) => {
   res.send("This is a message from the test endpoint on the server.");
+
 });
