@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 const Express = require("express");
 const app = Express();
@@ -18,9 +19,13 @@ dbConnection
     });
   })
   .catch((err) => {
-    console.log(`[Server]: Server crashed. Erorr = ${err}`);
+    console.log(`[Server]: Server crashed. Error = ${err}`);
   });
 
 app.use("/test", (req, res) => {
   res.send("This is a message from the test endpoint on the server.");
+
 });
+
+
+
