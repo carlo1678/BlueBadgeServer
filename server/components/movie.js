@@ -1,4 +1,4 @@
-const weatherApi = `http://www.omdbapi.com/?t="MOVIETITLE"&apikey=4e038712`;
+const movieApi = `http://www.omdbapi.com/?t="MOVIETITLE"&apikey=4e038712`;
 
     const titleCall = async () => {
       const response = await fetch(movieApi);
