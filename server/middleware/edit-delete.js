@@ -14,7 +14,7 @@ let input = document.createElement('input');
 if (card.childNodes.length < 2) {
     card.appendChild(input);
     input.setAttribute("type", "text");
-    input.setAttribute("id", "updatedEntry");
+    input.setAttribute("id", "updatedEdit");
     input.setAttribute("placeholder", ");
 } else {
 
