@@ -20,7 +20,7 @@ if (card.childNodes.length < 2) {
 
     let updated = document.getElementById('updatedEntry').nodeValue;
     let newEntry = {
-        journal: {
+        edit: {
             entry: updated
         }
     }
