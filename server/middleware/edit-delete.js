@@ -15,13 +15,13 @@ if (card.childNodes.length < 2) {
     card.appendChild(input);
     input.setAttribute("type", "text");
     input.setAttribute("id", "updatedEntry");
-    input.setAttribute("placeholder", "Edit you journal entry");
+    input.setAttribute("placeholder", ");
 } else {
 
-    let updated = document.getElementById('updatedEntry').nodeValue;
-    let newEntry = {
+    let updated = document.getElementById('updatedEdit').nodeValue;
+    let newEdit = {
         edit: {
-            entry: updated
+            edit: updated
         }
     }
 
@@ -31,7 +31,7 @@ if (card.childNodes.length < 2) {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`
         }),
-        body: JSON.stringify(newEntry)
+        body: JSON.stringify(newEdit)
     })
         .then(response => response.json())
         .then(data => {
