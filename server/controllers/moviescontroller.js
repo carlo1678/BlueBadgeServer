@@ -17,7 +17,6 @@ router.post("/add", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
-  MovieModel.create(movieFavorite);
 });
 
 router.put("/update/:movieId", async (req, res) => {
