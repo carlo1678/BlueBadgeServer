@@ -1,10 +1,10 @@
 const Express = require("express");
 const router = Express.Router();
-// const validateJWT = require("../middleware/validate-jwt");
+const validateJWT = require("../middleware/validate-jwt");
 const { GameModel } = require("../models");
 const Game = require("../models/games");
 
-router.post("/add", async (req, res) => {
+router.post("/add", validateJWT, async (req, res) => {
   const { title, date } = req.body.game;
   const { id } = req.user;
   const gameFavorite = {
@@ -18,8 +18,8 @@ router.post("/add", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
-  GameModel.create(gameFavorite);
 });
+
 
 router.get("/", async (req, res) => {
   try{
@@ -30,7 +30,8 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.put("/update/:gameId", async (req, res) => {
+router.put("/update/:gameId", validateJWT, async (req, res) => {
+
   const { title, date } = req.body.game;
   const gameId = req.params.gameId;
   const userId = req.user.id;
@@ -74,3 +75,5 @@ router.put("/update/:gameId", async (req, res) => {
   });
 
 });
+
+module.exports = router;

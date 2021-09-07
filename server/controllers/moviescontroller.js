@@ -1,9 +1,10 @@
 const Express = require("express");
+const validateJWT = require("../middleware/validate-jwt");
 const router = Express.Router();
 const { MovieModel } = require("../models");
 const Movie = require("../models/movies");
 
-router.post("/add", async (req, res) => {
+router.post("/add", validateJWT, async (req, res) => {
   const { title, date } = req.body.movie;
   const { id } = req.user;
   const movieFavorite = {
@@ -17,8 +18,8 @@ router.post("/add", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
-  MovieModel.create(movieFavorite);
 });
+
 
 router.get("/", async (req, res) => {
   try{
@@ -29,7 +30,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.put("/update/:movieId", async (req, res) => {
+
+router.put("/update/:movieId", validateJWT, async (req, res) => {
+
   const { title, date } = req.body.movie;
   const movieId = req.params.entryId;
   const userId = req.user.id;
@@ -73,3 +76,5 @@ router.put("/update/:movieId", async (req, res) => {
   });
 
 });
+
+module.exports = router;
