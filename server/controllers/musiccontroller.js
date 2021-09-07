@@ -20,7 +20,18 @@ router.post("/add", validateJWT, async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try{
+    const entries = await MusicModel.findAll();
+    res.status(200).json(entries);
+  } catch(err){
+    res.status(500).json({error: err});
+  }
+});
+
+
 router.put("/update/:musicId", validateJWT, async (req, res) => {
+
   const { title, date } = req.body.music;
   const musicId = req.params.musicId;
   const userId = req.user.id;
@@ -43,6 +54,26 @@ router.put("/update/:musicId", validateJWT, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
+
+  router.delete("/delete/:id", async(req, res) => {
+    const ownerId = req.user.id;
+    const musicId = req.params.id; 
+
+    try{
+      const query = {
+        where: {
+          id: musicId,
+          owner: ownerId,
+        },
+      };
+
+      await MusicModel.destroy(query);
+      res.status(200).json({message: "Song Entry Removed"});
+    } catch (err) {
+      res.status(500).json({ error: err});
+    }
+  });
+
 });
 
 module.exports = router;

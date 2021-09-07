@@ -20,7 +20,19 @@ router.post("/add", validateJWT, async (req, res) => {
   }
 });
 
+
+router.get("/", async (req, res) => {
+  try{
+    const entries = await MovieModel.findAll();
+    res.status(200).json(entries);
+  } catch(err){
+    res.status(500).json({error: err});
+  }
+});
+
+
 router.put("/update/:movieId", validateJWT, async (req, res) => {
+
   const { title, date } = req.body.movie;
   const movieId = req.params.entryId;
   const userId = req.user.id;
@@ -43,6 +55,26 @@ router.put("/update/:movieId", validateJWT, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
+
+  router.delete("/delete/:id", async(req, res) => {
+    const ownerId = req.user.id;
+    const movieId = req.params.id; 
+
+    try{
+      const query = {
+        where: {
+          id: movieId,
+          owner: ownerId,
+        },
+      };
+
+      await MovieModel.destroy(query);
+      res.status(200).json({message: "Movie Entry Removed"});
+    } catch (err) {
+      res.status(500).json({ error: err});
+    }
+  });
+
 });
 
 module.exports = router;
