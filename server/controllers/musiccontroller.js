@@ -1,9 +1,10 @@
 const Express = require("express");
+const validateJWT = require("../middleware/validate-jwt");
 const router = Express.Router();
 const { MusicModel } = require("../models");
 const Music = require("../models/music");
 
-router.post("/add", async (req, res) => {
+router.post("/add", validateJWT, async (req, res) => {
   const { title, date } = req.body.music;
   const { id } = req.user;
   const musicFavorite = {
@@ -19,7 +20,7 @@ router.post("/add", async (req, res) => {
   }
 });
 
-router.put("/update/:musicId", async (req, res) => {
+router.put("/update/:musicId", validateJWT, async (req, res) => {
   const { title, date } = req.body.music;
   const musicId = req.params.musicId;
   const userId = req.user.id;
@@ -43,3 +44,5 @@ router.put("/update/:musicId", async (req, res) => {
     res.status(500).json({ error: err });
   }
 });
+
+module.exports = router;
