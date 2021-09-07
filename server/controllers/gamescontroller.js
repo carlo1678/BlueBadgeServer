@@ -21,6 +21,15 @@ router.post("/add", async (req, res) => {
   GameModel.create(gameFavorite);
 });
 
+router.get("/", async (req, res) => {
+  try{
+    const entries = await GameModel.findAll();
+    res.status(200).json(entries);
+  } catch(err){
+    res.status(500).json({error: err});
+  }
+});
+
 router.put("/update/:gameId", async (req, res) => {
   const { title, date } = req.body.game;
   const gameId = req.params.gameId;
@@ -44,4 +53,24 @@ router.put("/update/:gameId", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
+
+  router.delete("/delete/:id", async(req, res) => {
+    const ownerId = req.user.id;
+    const gameId = req.params.id; 
+
+    try{
+      const query = {
+        where: {
+          id: gameId,
+          owner: ownerId,
+        },
+      };
+
+      await GameModel.destroy(query);
+      res.status(200).json({message: "Game Entry Removed"});
+    } catch (err) {
+      res.status(500).json({ error: err});
+    }
+  });
+
 });
