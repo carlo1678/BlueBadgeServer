@@ -1,0 +1,47 @@
+.form {
+  .formLabel {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: $primary;
+    font-weight: 700;
+  }
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, $primary, $secondary);
+  border-image-slice: 1;
+}
+
+.formField {
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  background-color: #222222;
+}
+.column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+  }
+  .row {
+    display: flex;
+  }
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
