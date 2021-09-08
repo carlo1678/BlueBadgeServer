@@ -5,11 +5,11 @@ const { MusicModel } = require("../models");
 const Music = require("../models/music");
 
 router.post("/add", validateJWT, async (req, res) => {
-  const { title, date } = req.body.music;
+  const { image, name } = req.body.music;
   const { id } = req.user;
   const musicFavorite = {
-    title,
-    date,
+    image,
+    name,
     owner: id,
   };
   try {
@@ -20,19 +20,22 @@ router.post("/add", validateJWT, async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  try{
-    const entries = await MusicModel.findAll();
+router.get("/mine", validateJWT, async (req, res) => {
+  let { id } = req.user;
+  try {
+    const entries = await MusicModel.findAll({
+      where: {
+        owner: id,
+      },
+    });
     res.status(200).json(entries);
-  } catch(err){
-    res.status(500).json({error: err});
+  } catch (err) {
+    res.status(500).json({ error: err });
   }
 });
 
-
 router.put("/update/:musicId", validateJWT, async (req, res) => {
-
-  const { title, date } = req.body.music;
+  const { image, name } = req.body.music;
   const musicId = req.params.musicId;
   const userId = req.user.id;
 
@@ -44,8 +47,8 @@ router.put("/update/:musicId", validateJWT, async (req, res) => {
   };
 
   const updatedSong = {
-    title: title,
-    date: date,
+    image: image,
+    name: name,
   };
 
   try {
@@ -55,11 +58,11 @@ router.put("/update/:musicId", validateJWT, async (req, res) => {
     res.status(500).json({ error: err });
   }
 
-  router.delete("/delete/:id", async(req, res) => {
+  router.delete("/delete/:id", async (req, res) => {
     const ownerId = req.user.id;
-    const musicId = req.params.id; 
+    const musicId = req.params.id;
 
-    try{
+    try {
       const query = {
         where: {
           id: musicId,
@@ -68,12 +71,11 @@ router.put("/update/:musicId", validateJWT, async (req, res) => {
       };
 
       await MusicModel.destroy(query);
-      res.status(200).json({message: "Song Entry Removed"});
+      res.status(200).json({ message: "Song Entry Removed" });
     } catch (err) {
-      res.status(500).json({ error: err});
+      res.status(500).json({ error: err });
     }
   });
-
 });
 
 module.exports = router;

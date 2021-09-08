@@ -2,11 +2,11 @@ const { DataTypes } = require("sequelize");
 const db = require("../db");
 
 const Song = db.define("song", {
-  title: {
-    type: DataTypes.STRING,
+  image: {
+    type: DataTypes.BLOB,
     allowNull: false,
   },
-  date: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
