@@ -13,17 +13,26 @@ app.use("/games", controllers.gamesController);
 app.use("/movies", controllers.moviesController);
 app.use("/music", controllers.musicController);
 
-dbConnection
-  .authenticate()
+dbConnection.authenticate()
   .then(() => dbConnection.sync())
   .then(() => {
-    app.listen(3001, () => {
-      console.log(`[Server]: App is listening on 3001.`);
-    });
+    app.listen(process.env.PORT, () => console.log(`[Server]: App is litening on ${process.env.PORT}`));
   })
   .catch((err) => {
-    console.log(`[Server]: Server crashed. Error = ${err}`);
-  });
+    console.log(`[Server] has crashed: ${err}`);
+  })
+
+// dbConnection
+//   .authenticate()
+//   .then(() => dbConnection.sync())
+//   .then(() => {
+//     app.listen(3001, () => {
+//       console.log(`[Server]: App is listening on 3001.`);
+//     });
+//   })
+//   .catch((err) => {
+//     console.log(`[Server]: Server crashed. Error = ${err}`);
+//   });
 
 app.use("/test", (req, res) => {
   res.send("This is a message from the test endpoint on the server.");

@@ -11,10 +11,14 @@ router.post("/register", async (req, res) => {
       email,
       password: bcrypt.hashSync(password, 13),
     });
-    let token = jwt.sign(
-      { id: User.id, email: User.email },
+    // let token = jwt.sign(
+    //   { id: User.id, email: User.email },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: "1d" }
+    const token = jwt.sign(
+      { id: newUser.id, },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: 60 * 60 * 12 }
     );
 
     res.status(201).json({
