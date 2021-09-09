@@ -3,12 +3,15 @@ const db = require("../db");
 
 const Game = db.define("game", {
   image: {
-    type: DataTypes.BLOB,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  owner: {
+    type: DataTypes.INTEGER,
   },
 });
 

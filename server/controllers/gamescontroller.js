@@ -57,25 +57,25 @@ router.put("/update/:gameId", validateJWT, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
+});
 
-  router.delete("/delete/:id", async (req, res) => {
-    const ownerId = req.user.id;
-    const gameId = req.params.id;
+router.delete("/delete/:id", validateJWT, async (req, res) => {
+  const ownerId = req.user.id;
+  const gameId = req.params.id;
 
-    try {
-      const query = {
-        where: {
-          id: gameId,
-          owner: ownerId,
-        },
-      };
+  try {
+    const query = {
+      where: {
+        id: gameId,
+        owner: ownerId,
+      },
+    };
 
-      await GameModel.destroy(query);
-      res.status(200).json({ message: "Game Entry Removed" });
-    } catch (err) {
-      res.status(500).json({ error: err });
-    }
-  });
+    const deleteGame = await GameModel.destroy(query);
+    res.status(200).json(deleteGame);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 });
 
 module.exports = router;
