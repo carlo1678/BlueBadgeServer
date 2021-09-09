@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(
-  "postgres://postgres:Carl0Carb0nell!!@localhost:5432/bluebadge"
+  "postgres://postgres:c8ead41b25144e7b83a6c89d08dca88f@localhost:5432/BlueBadge"
 );
 
 module.exports = sequelize;
