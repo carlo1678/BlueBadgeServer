@@ -57,25 +57,25 @@ router.put("/update/:musicId", validateJWT, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
+});
 
-  router.delete("/delete/:id", async (req, res) => {
-    const ownerId = req.user.id;
-    const musicId = req.params.id;
+router.delete("/delete/:id", validateJWT, async (req, res) => {
+  const ownerId = req.user.id;
+  const musicId = req.params.id;
 
-    try {
-      const query = {
-        where: {
-          id: musicId,
-          owner: ownerId,
-        },
-      };
+  try {
+    const query = {
+      where: {
+        id: musicId,
+        owner: ownerId,
+      },
+    };
 
-      await MusicModel.destroy(query);
-      res.status(200).json({ message: "Song Entry Removed" });
-    } catch (err) {
-      res.status(500).json({ error: err });
-    }
-  });
+    const deleteSong = await MusicModel.destroy(query);
+    res.status(200).json(deleteSong);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 });
 
 module.exports = router;

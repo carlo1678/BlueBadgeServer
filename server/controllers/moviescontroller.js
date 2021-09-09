@@ -57,25 +57,25 @@ router.put("/update/:movieId", validateJWT, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
+});
 
-  router.delete("/delete/:id", async (req, res) => {
-    const ownerId = req.user.id;
-    const movieId = req.params.id;
+router.delete("/delete/:id", validateJWT, async (req, res) => {
+  const ownerId = req.user.id;
+  const movieId = req.params.id;
 
-    try {
-      const query = {
-        where: {
-          id: movieId,
-          owner: ownerId,
-        },
-      };
+  try {
+    const query = {
+      where: {
+        id: movieId,
+        owner: ownerId,
+      },
+    };
 
-      await MovieModel.destroy(query);
-      res.status(200).json({ message: "Movie Entry Removed" });
-    } catch (err) {
-      res.status(500).json({ error: err });
-    }
-  });
+    const deleteMovie = await MovieModel.destroy(query);
+    res.status(200).json(deleteMovie);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 });
 
 module.exports = router;
