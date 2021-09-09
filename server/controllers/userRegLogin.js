@@ -15,11 +15,9 @@ router.post("/register", async (req, res) => {
     //   { id: User.id, email: User.email },
     //   process.env.JWT_SECRET,
     //   { expiresIn: "1d" }
-    const token = jwt.sign(
-      { id: newUser.id, },
-      process.env.JWT_SECRET,
-      { expiresIn: 60 * 60 * 12 }
-    );
+    const token = jwt.sign({ id: User.id }, process.env.JWT_SECRET, {
+      expiresIn: 60 * 60 * 12,
+    });
 
     res.status(201).json({
       message: "User Registered",
